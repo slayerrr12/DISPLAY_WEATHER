@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FORECAST</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="stylesheet" href="stylesheet.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+</head>
+
+<body>
+  <!-- navbar -->
+  <nav class="navbar background bg-body-tertiary linear-gradient ">
+    <div class="container-fluid  ">
+      <a class="navbar-brand">ForeCast</a>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2 " type="search" placeholder="City" value="Delhi" id="get-city"
+          aria-label="Search">
+        <button class="btn btn-outline-success" type="submit" id="submit-button">Search</button>
+      </form>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row mt-sm-4">
+      <div class="col-sm-4 mx-auto text-center display-6  city-name">
+        CITY
+
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-sm-1  display-1  mx-auto text-center">
+
+        <span id="liveTemprature"></span>&deg;C
+
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-sm-2 mx-auto text-center">
+        <span>Feels Like </span><span class="feels-like"></span><span>&deg;C</span>
+      </div>
+    </div>
+
+  </div>
+
+
+  </div>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-sm-2 mx-auto text-center">
+        WIND SPEED
+      </div>
+      <div class="col-sm-2 mx-auto text-center">
+        MAX TEMPRATURE
+      </div>
+      <div class="col-sm-2 mx-auto text-center">
+        MIN TEMPRATURE
+      </div>
+      <div class="col-sm-2 mx-auto text-center">
+        HUMIDITY
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2 mx-auto text-center">
+        <span class="weather-info"></span>
+      </div>
+      <div class="col-sm-2 mx-auto text-center">
+        <span class="weather-info"></span>
+      </div>
+      <div class="col-sm-2 mx-auto text-center">
+        <span class="weather-info"></span>
+      </div>
+      <div class="col-sm-2 mx-auto text-center">
+        <span class="weather-info"></span>
+      </div>
+    </div>
+    
+  </div>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script>
+    let weather_info = Array.from(document.getElementsByClassName("weather-info"))
+    console.log(weather_info)
+    let city_name = document.querySelector(".city-name")
+    console.log(city_name)
+
+    let submitbutton = document.querySelector("#submit-button")
+    let search = document.querySelector("#get-city")
+    console.log(search)
+    let city = ''
+    let displayTemprature = document.querySelector("#liveTemprature")
+    let feels_like = document.querySelector(".feels-like")
+    search.addEventListener('input', () => {
+
+      city = search.value
+
+
+    })
+
+    async function getWeather(cityname) {
+      city_name.innerHTML = city
+
+      const url = `https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city=${city}`;
+
+      const options = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': '16bcfd0889mshbf074185edcf163p1d4724jsn484db61bccb0',
+          'X-RapidAPI-Host': 'weather-by-api-ninjas.p.rapidapi.com'
+        }
+      };
+      const resolve = await fetch(url, options)
+      const data = await resolve.json()
+      console.log(data)
+      displayTemprature.innerHTML = data.temp
+      feels_like.innerHTML = data.feels_like
+      weather_info[0].innerHTML = data.wind_speed
+      weather_info[1].innerHTML = data.max_temp
+      weather_info[2].innerHTML = data.min_temp
+      weather_info[3].innerHTML = data.humidity
+
+
+    }
+
+
+    submitbutton.addEventListener('click', (e, city) => {
+      e.preventDefault()
+      getWeather(city)
+    })
+    
+  </script>
+
+</body>
+
+</html>

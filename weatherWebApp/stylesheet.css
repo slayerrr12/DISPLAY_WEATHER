@@ -1,0 +1,11 @@
+
+.text-center{
+    text-align: center;
+}
+.linear-gradient{
+    background: linear-gradient(to right, #c0100a, #16030a);
+}
+.navborder{
+    border-radius: 23px;
+}
+
